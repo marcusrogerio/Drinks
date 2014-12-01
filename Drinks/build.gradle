@@ -9,6 +9,8 @@ android {
         targetSdkVersion 21
         versionCode = 18
         versionName = "1.2.1"
+        testApplicationId "fr.masciulli.drinks.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
     defaultConfig {
