@@ -2,7 +2,6 @@ package fr.masciulli.drinks.test;
 
 import android.support.v4.view.ViewPager;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.SmallTest;
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.MainActivity;
 
