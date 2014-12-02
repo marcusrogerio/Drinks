@@ -17,6 +17,14 @@ public class Drink implements Parcelable {
     public Drink() {
     }
 
+    public Drink(String name, String imageUrl, String history, String instructions, String wikipedia) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.history = history;
+        this.instructions = instructions;
+        this.wikipedia = wikipedia;
+    }
+
     private Drink(Parcel parcel) {
         name = parcel.readString();
         imageUrl = parcel.readString();
