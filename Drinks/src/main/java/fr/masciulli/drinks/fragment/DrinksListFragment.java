@@ -1,8 +1,11 @@
 package fr.masciulli.drinks.fragment;
 
+import android.app.ActivityOptions;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -79,7 +82,14 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
         Intent intent = new Intent(getActivity(), DrinkDetailActivity.class);
         intent.putExtra("drink", drink);
-        startActivity(intent);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            ActivityOptions options = ActivityOptions
+                    .makeSceneTransitionAnimation(getActivity(), view.findViewById(R.id.image), getString(R.string.transition_detail));
+            ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     @Override

@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -124,7 +126,12 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
         mImageViewHeight = (int) getResources().getDimension(R.dimen.drink_detail_recipe_margin);
         mScrollView.setScrollViewListener(this);
 
-        if (savedInstanceState != null) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            mColorBox.setAlpha(1);
+            if (mDrink != null) {
+                refreshUI(mDrink);
+            }
+        } else if (savedInstanceState != null) {
             mColorBox.setAlpha(1);
             Drink drink = savedInstanceState.getParcelable(STATE_DRINK);
             if (drink != null) {
@@ -259,7 +266,7 @@ public class DrinkDetailFragment extends Fragment implements ScrollViewListener 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getActivity().finish();
+                ActivityCompat.finishAfterTransition(getActivity());
                 return true;
             case R.id.menu_item_share:
                 Intent sendIntent = new Intent();
