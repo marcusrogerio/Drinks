@@ -16,6 +16,7 @@ import fr.masciulli.drinks.model.Drink;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class DrinksListAdapter extends RecyclerView.Adapter<DrinksListAdapter.ViewHolder> implements Filterable {
     private List<Drink> drinks = Collections.emptyList();
@@ -32,17 +33,17 @@ public class DrinksListAdapter extends RecyclerView.Adapter<DrinksListAdapter.Vi
 
             Log.d("adapter", "performing filtering with " + charSequence);
 
-            final String query = charSequence.toString().toLowerCase();
+            final String query = charSequence.toString().toLowerCase(Locale.ENGLISH);
 
             final List<Drink> ingredientMatchDrinks = new ArrayList<Drink>();
 
             for (Drink drink : savedDrinks) {
-                if (drink.name.toLowerCase().contains(query)) {
+                if (drink.name.toLowerCase(Locale.ENGLISH).contains(query)) {
                     filteredDrinks.add(drink);
                 } else {
                     // drink name does not match, we check the ingredients
                     for (String ingredient : drink.ingredients) {
-                        if (ingredient.toLowerCase().contains(query)) {
+                        if (ingredient.toLowerCase(Locale.ENGLISH).contains(query)) {
                             ingredientMatchDrinks.add(drink);
                             break;
                         }

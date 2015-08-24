@@ -54,6 +54,7 @@ import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class LiquorDetailFragment extends Fragment implements AbsListView.OnScrollListener {
     private static final int HEADERVIEWS_COUNT = 1;
@@ -139,14 +140,14 @@ public class LiquorDetailFragment extends Fragment implements AbsListView.OnScro
 
             for (Drink drink : drinks) {
                 for (String ingredient : drink.ingredients) {
-                    if (ingredient.toLowerCase().contains(liquor.name.toLowerCase())) {
+                    if (ingredient.toLowerCase(Locale.ENGLISH).contains(liquor.name.toLowerCase(Locale.ENGLISH))) {
                         filteredDrinks.add(drink);
                         break;
                     }
 
                     //At this point, we know main name does not match
                     for (String otherName : liquor.otherNames) {
-                        if (ingredient.toLowerCase().contains(otherName.toLowerCase())) {
+                        if (ingredient.toLowerCase(Locale.ENGLISH).contains(otherName.toLowerCase(Locale.ENGLISH))) {
                             filteredDrinks.add(drink);
                             break;
                         }
