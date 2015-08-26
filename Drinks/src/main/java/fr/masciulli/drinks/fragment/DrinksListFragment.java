@@ -8,8 +8,8 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -20,17 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import fr.masciulli.drinks.R;
 import fr.masciulli.drinks.activity.DrinkDetailActivity;
 import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.DrinksListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Drink;
-import fr.masciulli.drinks.view.DrinksOnScrollListener;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -63,8 +60,8 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
         emptyView = root.findViewById(android.R.id.empty);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addOnScrollListener(new DrinksOnScrollListener());
+        int columnCount = getResources().getInteger(R.integer.grid_column_count);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
 
         adapter = new DrinksListAdapter();
         adapter.setOnItemClickListener(new DrinksListAdapter.OnItemClickListener() {
@@ -151,7 +148,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
 
     @Override
     public void onScroll(int position, float positionOffset, int positionOffsetPixels) {
-        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        GridLayoutManager manager = (GridLayoutManager) recyclerView.getLayoutManager();
 
         int first = manager.findFirstVisibleItemPosition();
         int last = manager.findLastVisibleItemPosition();
@@ -182,7 +179,8 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         if (preferences.contains(PREF_DRINKS_JSON)) {
             Gson gson = new Gson();
             //TODO async
-            List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>(){}.getType());
+            List<Drink> drinks = gson.fromJson(preferences.getString(PREF_DRINKS_JSON, "null"), new TypeToken<List<Drink>>() {
+            }.getType());
             updateList(drinks);
             progressBar.setVisibility(View.GONE);
         }
@@ -198,7 +196,7 @@ public class DrinksListFragment extends Fragment implements Callback<List<Drink>
         // SearchView configuration
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
 
-        final ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
