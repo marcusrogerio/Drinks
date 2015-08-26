@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +25,6 @@ import fr.masciulli.drinks.activity.MainActivity;
 import fr.masciulli.drinks.adapter.LiquorListAdapter;
 import fr.masciulli.drinks.data.DrinksProvider;
 import fr.masciulli.drinks.model.Liquor;
-import fr.masciulli.drinks.view.DrinksOnScrollListener;
 import fr.masciulli.drinks.view.ViewPagerScrollListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -58,8 +57,8 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
         emptyView = root.findViewById(android.R.id.empty);
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addOnScrollListener(new DrinksOnScrollListener(DrinksOnScrollListener.NAMEVIEW_POSITION_TOP));
+        int columnCount = getResources().getInteger(R.integer.grid_column_count);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
 
         adapter = new LiquorListAdapter();
         adapter.setOnItemClickListener(new LiquorListAdapter.OnItemClickListener() {
@@ -139,7 +138,7 @@ public class LiquorsListFragment extends Fragment implements Callback<List<Liquo
             return;
         }
 
-        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        GridLayoutManager manager = (GridLayoutManager) recyclerView.getLayoutManager();
 
         int first = manager.findFirstVisibleItemPosition();
         int last = manager.findLastVisibleItemPosition();
